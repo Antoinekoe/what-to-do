@@ -5,7 +5,7 @@ import TasksCategoryManager from "./components/TasksCategoryManager";
 
 function App() {
   return (
-    <div className="flex flex-col gap-5 justify-center items-center max-w-3/8 mx-auto">
+    <div className="flex flex-col gap-5 justify-center items-center max-w-4/5 xl:max-w-4/8 mx-auto">
       <h1 className="font-bold text-4xl py-10">TO-DO LIST 📝</h1>
       <AddTasks />
       <TasksCount />
