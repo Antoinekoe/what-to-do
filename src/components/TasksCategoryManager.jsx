@@ -8,10 +8,10 @@ const TasksManager = () => {
     Santé: 0,
   });
   return (
-    <div>
-      TasksManager
+    <>
+      <span> Personnel (1) </span>
       <Tasks />
-    </div>
+    </>
   );
 };
 
