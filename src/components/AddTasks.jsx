@@ -4,9 +4,40 @@ import PopinTasks from "./PopinTasks";
 
 const AddTasks = () => {
   const [isToggle, setIsToggle] = useState(false);
+  const [formData, setFormData] = useState({
+    task: "",
+    category: "",
+    subtasks: [],
+  });
 
   const buttonToggle = () => {
     setIsToggle(!isToggle);
+  };
+
+  // Handle input changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Here you would typically:
+    // 1. Send data to your backend API
+    // 2. Update your app's state
+    // 3. Show success message
+    // 4. Reset the form
+
+    // Reset form after submission
+    setFormData({
+      task: "",
+      category: "",
+      subtasks: [],
+    });
   };
 
   return (
@@ -35,11 +66,19 @@ const AddTasks = () => {
           </div>
         </>
       )}
-      <div className="flex gap-4 bg-white rounded-xl w-full py-5 px-5 shadow-md">
+
+      <form
+        onSubmit={handleSubmit}
+        className="flex gap-4 bg-white rounded-xl w-full py-5 px-5 shadow-md"
+      >
         <div className="flex flex-col gap-4 w-full">
           <div className="xl:flex gap-4 justify-between">
             <input
               type="text"
+              name="task"
+              minLength={2}
+              onChange={handleInputChange}
+              value={formData.task}
               placeholder="Titre de la tâche..."
               className="border-1 border-gray-300 px-3 py-2 rounded-md w-full focus:outline-none"
               autoFocus
@@ -54,18 +93,27 @@ const AddTasks = () => {
         </div>
         <div className="flex flex-col  gap-4">
           <div className="flex gap-2">
-            <select className="border-1 border-gray-300 rounded-md px-3 py-2">
+            <select
+              name="category"
+              onChange={handleInputChange}
+              value={formData.category}
+              className="border-1 border-gray-300 rounded-md px-3 py-2"
+            >
               <option value="Personnel">Personnel</option>
+              <option value="Travail">Travail</option>
             </select>
             <button className="cursor-pointer" onClick={() => buttonToggle()}>
               ⚙️
             </button>
           </div>
-          <button className="flex justify-center items-center cursor-pointer bg-blue-600 text-white px-10 rounded-md h-full">
+          <button
+            type="submit"
+            className="flex justify-center items-center cursor-pointer bg-blue-600 text-white px-10 rounded-md h-full"
+          >
             Créer
           </button>
         </div>
-      </div>
+      </form>
     </>
   );
 };

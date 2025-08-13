@@ -1,3 +1,5 @@
+import Tasks from "./Tasks";
+
 const MyTasks = () => {
   return (
     <div className="flex flex-col gap-4 justify-between w-full">
@@ -7,6 +9,7 @@ const MyTasks = () => {
           <option value="Toutes les catégories">Toutes les catégories</option>
         </select>
       </div>
+      <Tasks />
     </div>
   );
 };
