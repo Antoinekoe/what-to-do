@@ -10,7 +10,6 @@ const AddTasks = ({ addTask }) => {
     subtasks: [],
   });
   const [numberOfSubTasks, setNumberOfSubTasks] = useState(0);
-  const [subtaskInputs, setSubtaskInputs] = useState([]);
 
   const buttonToggle = () => {
     setIsToggle(!isToggle);
@@ -18,8 +17,11 @@ const AddTasks = ({ addTask }) => {
 
   const handleAddSubTask = (e) => {
     e.preventDefault();
+    setFormData((prev) => ({
+      ...prev,
+      subtasks: [...prev.subtasks, ""], // Add empty subtask to formData
+    }));
     setNumberOfSubTasks(numberOfSubTasks + 1);
-    setSubtaskInputs([...subtaskInputs, ""]);
   };
 
   // Handle input changes
@@ -33,15 +35,20 @@ const AddTasks = ({ addTask }) => {
 
   // Handle subtask input changes
   const handleSubtaskChange = (index, value) => {
-    const newSubtaskInputs = [...subtaskInputs];
-    newSubtaskInputs[index] = value;
-    setSubtaskInputs(newSubtaskInputs);
+    setFormData((prev) => {
+      const newSubtasks = [...prev.subtasks];
+      newSubtasks[index] = value;
+      return {
+        ...prev,
+        subtasks: newSubtasks,
+      };
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    addTask(formData.task, subtaskInputs, formData.category);
+    addTask(formData.task, formData.subtasks, formData.category);
     // Here you would typically:
     // 1. Send data to your backend API
     // 2. Update your app's state
@@ -55,7 +62,6 @@ const AddTasks = ({ addTask }) => {
       subtasks: [],
     });
     setNumberOfSubTasks(0);
-    setSubtaskInputs([]);
   };
 
   return (
@@ -111,7 +117,7 @@ const AddTasks = ({ addTask }) => {
               + Ajouter
             </button>
           </div>
-          {subtaskInputs.map((subtask, index) => (
+          {formData.subtasks.map((subtask, index) => (
             <input
               key={index}
               type="text"
@@ -139,7 +145,7 @@ const AddTasks = ({ addTask }) => {
           </div>
           <button
             type="submit"
-            className="flex justify-center items-center cursor-pointer bg-blue-600 text-white px-10 rounded-md px-2 py-0.5"
+            className="flex justify-center items-center cursor-pointer bg-blue-600 text-white px-10 rounded-md py-0.5"
           >
             Créer
           </button>
