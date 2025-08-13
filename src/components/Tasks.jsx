@@ -12,7 +12,7 @@ const Tasks = ({ tasks, deleteTask }) => {
           <input type="checkbox" className="mt-1.5 accent-blue-600 scale-150" />
           <div className="flex flex-col">
             <span className="font-semibold text-xl">{task.task}</span>
-            <Subtasks />
+            <Subtasks tasks={tasks} />
           </div>
         </div>
         <Trash className="cursor-pointer" onClick={() => deleteTask(index)} />
