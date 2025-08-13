@@ -13,9 +13,10 @@ function App() {
     ]);
   };
 
-  useEffect(() => {
-    console.log(tasks);
-  }, [tasks]);
+  const deleteTask = (indexOfTask) => {
+    const newTasks = tasks.filter((_, index) => index !== indexOfTask);
+    setTasks(newTasks);
+  };
 
   return (
     <div className="flex flex-col gap-5 justify-center items-center max-w-4/5 xl:max-w-4/8 mx-auto">
@@ -23,7 +24,7 @@ function App() {
       <AddTasks addTask={addTask} />
       <TasksCount />
       <div className="flex flex-col gap-4 justify-between bg-white rounded-xl w-full py-5 px-5 shadow-md">
-        <MyTasks />
+        <MyTasks tasks={tasks} deleteTask={deleteTask} />
       </div>
     </div>
   );

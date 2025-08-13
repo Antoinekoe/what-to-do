@@ -139,7 +139,7 @@ const AddTasks = ({ addTask }) => {
           </div>
           <button
             type="submit"
-            className="flex justify-center items-center cursor-pointer bg-blue-600 text-white px-10 rounded-md h-full"
+            className="flex justify-center items-center cursor-pointer bg-blue-600 text-white px-10 rounded-md px-2 py-0.5"
           >
             Créer
           </button>
