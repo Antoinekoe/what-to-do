@@ -2,16 +2,24 @@ import { X } from "lucide-react";
 import { useState } from "react";
 import PopinTasks from "./PopinTasks";
 
-const AddTasks = () => {
+const AddTasks = ({ addTask }) => {
   const [isToggle, setIsToggle] = useState(false);
   const [formData, setFormData] = useState({
     task: "",
     category: "",
     subtasks: [],
   });
+  const [numberOfSubTasks, setNumberOfSubTasks] = useState(0);
+  const [subtaskInputs, setSubtaskInputs] = useState([]);
 
   const buttonToggle = () => {
     setIsToggle(!isToggle);
+  };
+
+  const handleAddSubTask = (e) => {
+    e.preventDefault();
+    setNumberOfSubTasks(numberOfSubTasks + 1);
+    setSubtaskInputs([...subtaskInputs, ""]);
   };
 
   // Handle input changes
@@ -23,9 +31,17 @@ const AddTasks = () => {
     }));
   };
 
+  // Handle subtask input changes
+  const handleSubtaskChange = (index, value) => {
+    const newSubtaskInputs = [...subtaskInputs];
+    newSubtaskInputs[index] = value;
+    setSubtaskInputs(newSubtaskInputs);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    addTask(formData.task, subtaskInputs, formData.category);
     // Here you would typically:
     // 1. Send data to your backend API
     // 2. Update your app's state
@@ -38,6 +54,8 @@ const AddTasks = () => {
       category: "",
       subtasks: [],
     });
+    setNumberOfSubTasks(0);
+    setSubtaskInputs([]);
   };
 
   return (
@@ -86,10 +104,23 @@ const AddTasks = () => {
           </div>
           <div className="flex justify-between">
             <span>Sous-tâches</span>
-            <button className="cursor-pointer bg-green-600 text-white px-2 py-0.5 text-center rounded-md">
+            <button
+              onClick={handleAddSubTask}
+              className="cursor-pointer bg-green-600 text-white px-2 py-0.5 text-center rounded-md"
+            >
               + Ajouter
             </button>
           </div>
+          {subtaskInputs.map((subtask, index) => (
+            <input
+              key={index}
+              type="text"
+              placeholder={`Sous-tâche ${index + 1}`}
+              value={subtask}
+              onChange={(e) => handleSubtaskChange(index, e.target.value)}
+              className="border-1 border-gray-300 px-3 py-2 rounded-md w-full focus:outline-none"
+            />
+          ))}
         </div>
         <div className="flex flex-col  gap-4">
           <div className="flex gap-2">
