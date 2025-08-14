@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AddTasks from "./components/AddTasks";
 import MyTasks from "./components/MyTasks";
 import TasksCount from "./components/TasksCount";
@@ -6,10 +6,11 @@ import TasksCount from "./components/TasksCount";
 function App() {
   const [tasks, setTasks] = useState([]);
 
-  const addTask = (newTask, subTask, category) => {
+  const addTask = (newTask, subtasks, category) => {
+    console.log(tasks);
     setTasks((prevTasks) => [
       ...prevTasks,
-      { task: newTask, subTask: subTask, category: category },
+      { task: newTask, subtasks: subtasks, category: category },
     ]);
   };
 

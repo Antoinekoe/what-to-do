@@ -9,7 +9,7 @@ const AddTasks = ({ addTask }) => {
     category: "",
     subtasks: [],
   });
-  const [numberOfSubTasks, setNumberOfSubTasks] = useState(0);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const buttonToggle = () => {
     setIsToggle(!isToggle);
@@ -21,7 +21,6 @@ const AddTasks = ({ addTask }) => {
       ...prev,
       subtasks: [...prev.subtasks, ""], // Add empty subtask to formData
     }));
-    setNumberOfSubTasks(numberOfSubTasks + 1);
   };
 
   // Handle input changes
@@ -48,6 +47,11 @@ const AddTasks = ({ addTask }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (formData.task.length <= 2) {
+      setErrorMessage("Veuillez entrer au minimum 2 caractères");
+      return;
+    }
+
     addTask(formData.task, formData.subtasks, formData.category);
     // Here you would typically:
     // 1. Send data to your backend API
@@ -55,13 +59,13 @@ const AddTasks = ({ addTask }) => {
     // 3. Show success message
     // 4. Reset the form
 
+    setErrorMessage("");
     // Reset form after submission
     setFormData({
       task: "",
       category: "",
       subtasks: [],
     });
-    setNumberOfSubTasks(0);
   };
 
   return (
@@ -100,14 +104,15 @@ const AddTasks = ({ addTask }) => {
             <input
               type="text"
               name="task"
-              minLength={2}
               onChange={handleInputChange}
               value={formData.task}
               placeholder="Titre de la tâche..."
               className="border-1 border-gray-300 px-3 py-2 rounded-md w-full focus:outline-none"
               autoFocus
             />
+            {errorMessage && <span className="relative">Error</span>}
           </div>
+
           <div className="flex justify-between">
             <span>Sous-tâches</span>
             <button
