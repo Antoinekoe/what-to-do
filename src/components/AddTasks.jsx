@@ -9,7 +9,7 @@ const AddTasks = ({ addTask }) => {
     category: "",
     subtasks: [],
   });
-  const [errorMessage, setErrorMessage] = useState("");
+  const [taskErrorMessage, setTaskErrorMessage] = useState("");
 
   const buttonToggle = () => {
     setIsToggle(!isToggle);
@@ -47,8 +47,11 @@ const AddTasks = ({ addTask }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (formData.task.length <= 2) {
-      setErrorMessage("Veuillez entrer au minimum 3 caractères");
+    if (
+      formData.task.length <= 2 ||
+      formData.subtasks.some((subtask) => subtask.length < 3)
+    ) {
+      setTaskErrorMessage("Veuillez entrer au minimum 3 caractères");
       return;
     }
 
@@ -59,7 +62,7 @@ const AddTasks = ({ addTask }) => {
     // 3. Show success message
     // 4. Reset the form
 
-    setErrorMessage("");
+    setTaskErrorMessage("");
     // Reset form after submission
     setFormData({
       task: "",
@@ -111,11 +114,7 @@ const AddTasks = ({ addTask }) => {
               autoFocus
             />
           </div>
-          {errorMessage && (
-            <span className="flex justify-end items-center relative text-red-500">
-              {errorMessage}
-            </span>
-          )}
+
           <div className="flex justify-between">
             <span>Sous-tâches</span>
             <button
@@ -135,6 +134,11 @@ const AddTasks = ({ addTask }) => {
               className="border-1 border-gray-300 px-3 py-2 rounded-md w-full focus:outline-none"
             />
           ))}
+          {taskErrorMessage && (
+            <span className="flex justify-end items-center relative text-red-500">
+              {taskErrorMessage}
+            </span>
+          )}
         </div>
         <div className="flex flex-col  gap-3">
           <div className="flex gap-2">
