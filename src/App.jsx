@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddTasks from "./components/AddTasks";
 import MyTasks from "./components/MyTasks";
 import TasksCount from "./components/TasksCount";
 
 function App() {
   const [tasks, setTasks] = useState([]);
+
+  useEffect(() => {
+    console.log(tasks);
+  }, [tasks]);
 
   const addTask = (newTask, subtasks, category) => {
     setTasks((prevTasks) => [
@@ -29,7 +33,9 @@ function App() {
     // );
     setTasks((prevTasks) => {
       const updatedTasks = prevTasks.map((task, index) =>
-        index === indexOfTask ? { ...task, isDeleted: true } : task
+        index === indexOfTask
+          ? { ...task, isDeleted: true, isChecked: false }
+          : task
       );
       return updatedTasks;
     });
