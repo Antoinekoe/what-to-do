@@ -16,14 +16,23 @@ function App() {
           isChecked: false,
         })),
         category: category,
+        isDeleted: false,
         isChecked: false,
       },
     ]);
   };
 
   const deleteTask = (indexOfTask) => {
-    const newTasks = tasks.filter((_, index) => index !== indexOfTask);
-    setTasks(newTasks);
+    // const newTasks = tasks.filter((_, index) => index !== indexOfTask);
+    // const updatedTasks = prevTasks.map((task, index) =>
+    //   index === taskIndex ? { ...task, isChecked: !task.isChecked } : task
+    // );
+    setTasks((prevTasks) => {
+      const updatedTasks = prevTasks.map((task, index) =>
+        index === indexOfTask ? { ...task, isDeleted: true } : task
+      );
+      return updatedTasks;
+    });
   };
 
   const toggleTaskChecked = (taskIndex) => {
@@ -78,7 +87,7 @@ function App() {
     <div className="flex flex-col gap-5 justify-center items-center max-w-4/5 xl:max-w-4/8 mx-auto">
       <h1 className="font-bold text-4xl py-10">TO-DO LIST 📝</h1>
       <AddTasks addTask={addTask} />
-      <TasksCount />
+      <TasksCount tasks={tasks} />
       <div className="flex flex-col gap-4 justify-between bg-white rounded-xl w-full py-5 px-5 shadow-md">
         <MyTasks
           tasks={tasks}
