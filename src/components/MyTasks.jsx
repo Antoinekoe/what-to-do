@@ -1,6 +1,11 @@
 import Tasks from "./Tasks";
 
-const MyTasks = ({ tasks, deleteTask }) => {
+const MyTasks = ({
+  tasks,
+  deleteTask,
+  toggleTaskChecked,
+  toggleSubtaskChecked,
+}) => {
   return (
     <div className="flex flex-col gap-4 justify-between w-full">
       <div className="flex justify-between">
@@ -9,7 +14,12 @@ const MyTasks = ({ tasks, deleteTask }) => {
           <option value="Toutes les catégories">Toutes les catégories</option>
         </select>
       </div>
-      <Tasks tasks={tasks} deleteTask={deleteTask} />
+      <Tasks
+        tasks={tasks}
+        deleteTask={deleteTask}
+        toggleTaskChecked={toggleTaskChecked}
+        toggleSubtaskChecked={toggleSubtaskChecked}
+      />
     </div>
   );
 };

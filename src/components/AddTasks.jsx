@@ -48,7 +48,7 @@ const AddTasks = ({ addTask }) => {
     e.preventDefault();
 
     if (formData.task.length <= 2) {
-      setErrorMessage("Veuillez entrer au minimum 2 caractères");
+      setErrorMessage("Veuillez entrer au minimum 3 caractères");
       return;
     }
 
@@ -99,20 +99,23 @@ const AddTasks = ({ addTask }) => {
         onSubmit={handleSubmit}
         className="flex gap-4 bg-white rounded-xl w-full py-5 px-5 shadow-md"
       >
-        <div className="flex flex-col gap-4 w-full">
-          <div className="xl:flex gap-4 justify-between">
+        <div className="flex flex-col gap-3 w-full">
+          <div className="xl:flex gap-4 justify-between border-1 border-gray-300 rounded-md w-full px-5 ">
             <input
               type="text"
               name="task"
               onChange={handleInputChange}
               value={formData.task}
               placeholder="Titre de la tâche..."
-              className="border-1 border-gray-300 px-3 py-2 rounded-md w-full focus:outline-none"
+              className=" py-2 w-full  focus:outline-none"
               autoFocus
             />
-            {errorMessage && <span className="relative">Error</span>}
           </div>
-
+          {errorMessage && (
+            <span className="flex justify-end items-center relative text-red-500">
+              {errorMessage}
+            </span>
+          )}
           <div className="flex justify-between">
             <span>Sous-tâches</span>
             <button
@@ -133,7 +136,7 @@ const AddTasks = ({ addTask }) => {
             />
           ))}
         </div>
-        <div className="flex flex-col  gap-4">
+        <div className="flex flex-col  gap-3">
           <div className="flex gap-2">
             <select
               name="category"
