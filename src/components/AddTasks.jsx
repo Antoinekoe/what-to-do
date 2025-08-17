@@ -1,4 +1,4 @@
-import { X } from "lucide-react";
+import { Trash, X } from "lucide-react";
 import { useState } from "react";
 import PopinTasks from "./PopinTasks";
 
@@ -20,6 +20,13 @@ const AddTasks = ({ addTask }) => {
     setFormData((prev) => ({
       ...prev,
       subtasks: [...prev.subtasks, ""], // Add empty subtask to formData
+    }));
+  };
+
+  const handleDeleteSubTask = (index) => {
+    setFormData((prev) => ({
+      ...prev,
+      subtasks: [...prev.subtasks.filter((_, i) => i !== index)],
     }));
   };
 
@@ -125,14 +132,22 @@ const AddTasks = ({ addTask }) => {
             </button>
           </div>
           {formData.subtasks.map((subtask, index) => (
-            <input
+            <div
               key={index}
-              type="text"
-              placeholder={`Sous-tâche ${index + 1}`}
-              value={subtask}
-              onChange={(e) => handleSubtaskChange(index, e.target.value)}
-              className="border-1 border-gray-300 px-3 py-2 rounded-md w-full focus:outline-none"
-            />
+              className="flex justify-between border-1 border-gray-300 px-3 py-2 rounded-md"
+            >
+              <input
+                type="text"
+                placeholder={`Sous-tâche ${index + 1}`}
+                value={subtask}
+                onChange={(e) => handleSubtaskChange(index, e.target.value)}
+                className=" w-full focus:outline-none"
+              />
+              <Trash
+                className="cursor-pointer"
+                onClick={() => handleDeleteSubTask(index)}
+              />
+            </div>
           ))}
           {taskErrorMessage && (
             <span className="flex justify-end items-center relative text-red-500">

@@ -6,10 +6,6 @@ import TasksCount from "./components/TasksCount";
 function App() {
   const [tasks, setTasks] = useState([]);
 
-  useEffect(() => {
-    console.log(tasks);
-  }, [tasks]);
-
   const addTask = (newTask, subtasks, category) => {
     setTasks((prevTasks) => [
       ...prevTasks,
@@ -27,10 +23,6 @@ function App() {
   };
 
   const deleteTask = (indexOfTask) => {
-    // const newTasks = tasks.filter((_, index) => index !== indexOfTask);
-    // const updatedTasks = prevTasks.map((task, index) =>
-    //   index === taskIndex ? { ...task, isChecked: !task.isChecked } : task
-    // );
     setTasks((prevTasks) => {
       const updatedTasks = prevTasks.map((task, index) =>
         index === indexOfTask
