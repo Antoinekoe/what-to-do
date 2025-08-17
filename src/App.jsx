@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AddTasks from "./components/AddTasks";
 import MyTasks from "./components/MyTasks";
 import TasksCount from "./components/TasksCount";
@@ -7,6 +7,7 @@ function App() {
   const [tasks, setTasks] = useState([]);
 
   const addTask = (newTask, subtasks, category) => {
+    console.log(tasks);
     setTasks((prevTasks) => [
       ...prevTasks,
       {
@@ -39,7 +40,6 @@ function App() {
         index === taskIndex ? { ...task, isChecked: !task.isChecked } : task
       );
 
-      console.log(updatedTasks);
       const updatedSubTasks = updatedTasks.map((task) => {
         if (task.subtasks.length > 0) {
           return {

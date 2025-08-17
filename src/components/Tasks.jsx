@@ -22,6 +22,7 @@ const Tasks = ({
               className="mt-2.5 accent-blue-600 scale-150"
             />
             <div className="flex flex-col justify-start items-start">
+              {task.category}
               <span
                 className={`font-semibold text-xl ${
                   task.isChecked ? "line-through" : ""
