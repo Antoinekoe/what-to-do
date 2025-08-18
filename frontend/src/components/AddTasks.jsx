@@ -1,5 +1,5 @@
 import { Trash, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PopinTasks from "./PopinTasks";
 
 const AddTasks = ({ addTask }) => {
@@ -10,6 +10,28 @@ const AddTasks = ({ addTask }) => {
     subtasks: [],
   });
   const [taskErrorMessage, setTaskErrorMessage] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [isLoadingCategories, setIsLoadingCategories] = useState(false);
+  const [categoryName, setCategoryName] = useState("");
+  const [categoryEmoji, setCategoryEmoji] = useState("");
+
+  const loadCategories = async () => {
+    try {
+      setIsLoadingCategories(true);
+      const res = await fetch("/api/categories", { credentials: "include" });
+      const data = await res.json();
+      if (res.ok) {
+        setCategories(data.categories || []);
+      }
+    } catch {
+    } finally {
+      setIsLoadingCategories(false);
+    }
+  };
+
+  useEffect(() => {
+    loadCategories();
+  }, []);
 
   const buttonToggle = () => {
     setIsToggle(!isToggle);
@@ -80,7 +102,40 @@ const AddTasks = ({ addTask }) => {
 
   return (
     <>
-      {isToggle && <PopinTasks buttonToggle={buttonToggle} />}
+      {isToggle && (
+        <PopinTasks
+          buttonToggle={buttonToggle}
+          categories={categories}
+          onAddCategory={async () => {
+            if (!categoryName.trim()) return;
+            const res = await fetch("/api/categories", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              credentials: "include",
+              body: JSON.stringify({
+                name: categoryName.trim(),
+                emoji: categoryEmoji || null,
+              }),
+            });
+            if (res.ok) {
+              setCategoryName("");
+              setCategoryEmoji("");
+              await loadCategories();
+            }
+          }}
+          onRemoveCategory={async (id) => {
+            const res = await fetch(`/api/categories/${id}`, {
+              method: "DELETE",
+              credentials: "include",
+            });
+            if (res.ok) await loadCategories();
+          }}
+          categoryName={categoryName}
+          setCategoryName={setCategoryName}
+          categoryEmoji={categoryEmoji}
+          setCategoryEmoji={setCategoryEmoji}
+        />
+      )}
 
       <form
         onSubmit={handleSubmit}
@@ -141,10 +196,16 @@ const AddTasks = ({ addTask }) => {
               className="border-1 border-gray-300 rounded-md px-3 py-2"
             >
               <option disabled value="">
-                Catégorie
+                {isLoadingCategories ? "Chargement..." : "Catégorie"}
               </option>
-              <option value="Personnel">Personnel</option>
-              <option value="Travail">Travail</option>
+              {categories.map((c) => {
+                const label = (c.emoji ? c.emoji + " " : "") + c.name;
+                return (
+                  <option key={c.id} value={label}>
+                    {label}
+                  </option>
+                );
+              })}
             </select>
             <button className="cursor-pointer" onClick={() => buttonToggle()}>
               ⚙️
