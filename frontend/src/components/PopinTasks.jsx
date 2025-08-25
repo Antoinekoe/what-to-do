@@ -79,7 +79,6 @@ const PopinTasks = ({
               className="flex justify-between bg-gray-100 px-1 py-2 rounded-md"
             >
               <div className="flex gap-2">
-                <Home />
                 <span>{(c.emoji ? c.emoji + " " : "") + c.name}</span>
               </div>
               <div>

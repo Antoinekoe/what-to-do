@@ -29,7 +29,9 @@ const Login = ({ onAuthenticated }) => {
 
   return (
     <div className="flex flex-col gap-6 justify-center items-center max-w-4/5 xl:max-w-4/8 mx-auto">
-      <h1 className="font-bold text-4xl py-10">Se connecter</h1>
+      <h1 className="font-bold text-4xl py-10">
+        {mode === "login" ? "Se connecter" : "S'enregistrer"}
+      </h1>
       <form
         onSubmit={submit}
         className="flex flex-col gap-3 bg-white rounded-xl w-full max-w-md py-6 px-6 shadow-md"
@@ -60,7 +62,7 @@ const Login = ({ onAuthenticated }) => {
         <button
           type="button"
           onClick={() => setMode(mode === "login" ? "register" : "login")}
-          className="text-sm text-blue-700"
+          className="text-sm text-blue-700 cursor-pointer"
         >
           {mode === "login"
             ? "Pas de compte ? Inscrivez-vous"
